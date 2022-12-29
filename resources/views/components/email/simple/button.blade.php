@@ -1,0 +1,3 @@
+<div style="margin: 0; margin-bottom: 15px;">
+    <a href="{{ $args[0] }}" target="_blank" style="border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none; text-transform: capitalize; background-color: #3498db; border-color: #3498db; color: #ffffff;">{{ $args[1] }}</a>
+</div>
