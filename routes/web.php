@@ -6,6 +6,7 @@ use App\Http\Controllers\ForgottenPasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use GuzzleHttp\Cookie\SessionCookieJar;
 use Illuminate\Support\Facades\Route;
@@ -33,7 +34,7 @@ Route::middleware('guest')->group(function () {
     Route::get('sessions/create', [SessionController::class, 'create'])->name('sessions.create');
     Route::post('/sessions', [SessionController::class, 'store'])->name('sessions.store');
 
-    //Route::singleton('forgotten-password', ForgottenPasswordController::class)->only(['create']);
+    //Route::singleton('forgotten-password', ForgottenPasswordController::class)->only(['create', 'store', 'edit', 'update']);
     Route::get('/forgotten-password/create', [ForgottenPasswordController::class, 'create'])->name('forgotten-password.create');
     Route::post('/forgotten-password', [ForgottenPasswordController::class, 'store'])->name('forgotten-password.store');
     Route::get('/forgotten-password/edit', [ForgottenPasswordController::class, 'edit'])->name('forgotten-password.edit');
@@ -43,6 +44,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
+    Route::resource('transactions', TransactionController::class)->only(['index', 'create', 'store']);
 });
 
 Route::middleware('auth')->group(function () {

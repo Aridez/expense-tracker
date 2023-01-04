@@ -1,6 +1,6 @@
 <x-layout.guest>
     <div class="flex min-h-full flex-col justify-center pt-6 sm:px-6 lg:px-8 pt-16">
-        <x-body.title>
+        <x-body.title class="text-center">
             Register a new account
         </x-body.title>
 

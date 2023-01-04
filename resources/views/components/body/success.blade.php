@@ -1,9 +1,12 @@
 @if (session()->has('success'))
-    <div
-        class="w-full border-b text-center items-center justify-center flex py-2
-        bg-cyan-100 dark:bg-cyan-700
-        text-cyan-700 dark:text-cyan-100
-        border-cyan-400 dark:border-cyan-300">
-        <i class="fa-solid fa-circle-check pr-1"></i> {{ __(session()->get('success')) }}
+    <div id="success" class="rounded-md bg-green-50 p-4">
+        <div class="flex justify-center">
+            <div class="flex-shrink-0">
+                <i class="fa-solid fa-circle-check h-5 w-5 text-green-400"></i>
+            </div>
+            <div class="ml-3">
+                <p class="text-sm font-medium text-green-800"> {{ __(session()->get('success')) }}</p>
+            </div>
+        </div>
     </div>
 @endif
