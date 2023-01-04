@@ -18,7 +18,7 @@
             <x-nav.button :href="route('dashboard')">
                 Dashboard
             </x-nav.button>
-            <x-nav.button>
+            <x-nav.button :href="route('transactions.index')">
                 Transactions
             </x-nav.button>
             <x-nav.button>
