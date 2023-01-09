@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Filters\OrderByFilter;
 use App\Filters\PaginationFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -36,7 +37,8 @@ class Transaction extends Model
         return app(Pipeline::class)
             ->send($query)
             ->through([
-                new PaginationFilter($request->page, $request->limit)
+                new PaginationFilter($request->page, $request->limit),
+                new OrderByFilter('date', 'desc')
                 //new PaginationFilter($this->request->page, $this->request->limit),
             ])
             ->thenReturn()

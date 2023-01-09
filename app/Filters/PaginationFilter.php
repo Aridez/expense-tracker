@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 class PaginationFilter
 {
 
-    protected $page;
-    protected $limit;
+    protected int $page;
+    protected int $limit;
 
 
     /**
@@ -35,9 +35,9 @@ class PaginationFilter
      */
     public function handle(Builder $query, Closure $next)
     {
-        $offset = ($this->page-1)*$this->limit;
+        $offset = ($this->page - 1) * $this->limit;
 
-        $query->skip($offset)->take($this->limit+1);
+        $query->skip($offset)->take($this->limit + 1);
 
         return $next($query);
     }

@@ -20,12 +20,17 @@
                     <x-table.head.cell>
                         Date
                     </x-table.head.cell>
-                    <x-table.head.cell>
+                    <x-table.head.cell colspan="3">
                         Amount
                     </x-table.head.cell>
                 </x-table.row>
             </x-table.head>
             <x-table.body>
+                <x-table.header-row class="bg-gray-50">
+                    <x-table.body.header-cell colspan="5">
+                        Latest transactions
+                    </x-table.body.header-cell>
+                </x-table.header-row>
                 @foreach ($transactions as $transaction)
                     <x-table.row>
                         <x-table.body.cell>
@@ -34,8 +39,38 @@
                         <x-table.body.cell>
                             {{ $transaction->date }}
                         </x-table.body.cell>
-                        <x-table.body.cell>
+                        <x-table.body.cell colspan="3">
                             {{ $transaction->amount }} €
+                        </x-table.body.cell>
+                    </x-table.row>
+                @endforeach
+                <x-table.header-row>
+                    <x-table.body.header-cell colspan="3">
+                        Coming up
+                    </x-table.body.header-cell>
+                    <x-table.body.header-cell>
+                        Periodicity
+                    </x-table.body.header-cell>
+                    <x-table.body.header-cell>
+                        Repeats until
+                    </x-table.body.header-cell>
+                </x-table.header-row>
+                @foreach ($upcomingTransactions as $upcomingTransaction)
+                    <x-table.row>
+                        <x-table.body.cell>
+                            {{ $upcomingTransaction->description }}
+                        </x-table.body.cell>
+                        <x-table.body.cell>
+                            {{ $upcomingTransaction->date }}
+                        </x-table.body.cell>
+                        <x-table.body.cell>
+                            {{ $upcomingTransaction->amount }} €
+                        </x-table.body.cell>
+                        <x-table.body.cell>
+                            {{ $upcomingTransaction->periodicity?->name }}
+                        </x-table.body.cell>
+                        <x-table.body.cell>
+                            {{ $upcomingTransaction->repeat_until ? 'until' . $upcomingTransaction->repeat_until : 'indefinitely' }}
                         </x-table.body.cell>
                     </x-table.row>
                 @endforeach

@@ -66,4 +66,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transaction::class);
     }
+
+    /**
+     * A user has many upcoming transactions
+     *
+     * @return HasMany|Collection|UpcomingTransaction[]
+     */
+    public function upcomingTransactions(): HasMany|Collection
+    {
+        return $this->hasMany(UpcomingTransaction::class);
+    }
 }
