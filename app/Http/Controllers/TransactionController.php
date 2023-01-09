@@ -2,11 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Periodicity;
 use App\Models\Transaction;
+use App\Models\UpcomingTransaction;
+use App\Services\TransactionService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
+
+    protected $transactionService;
+
+    public function __construct(TransactionService $transactionService)
+    {
+        $this->transactionService = $transactionService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -27,6 +39,7 @@ class TransactionController extends Controller
         $data['page'] = $request->page;
         $data['limit'] = $request->limit;
         $data['transactions'] = Transaction::filter(auth()->user()->transactions()->getQuery(), $request);
+        $data['upcomingTransactions'] = auth()->user()->upcomingTransactions;
 
         return view('resources.transactions.index', $data);
     }
@@ -38,7 +51,8 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        return view('resources.transactions.create');
+        $data['periodicities'] = Periodicity::all();
+        return view('resources.transactions.create', $data);
     }
 
     /**
@@ -53,14 +67,15 @@ class TransactionController extends Controller
             'description' => ['required', 'string', 'max:128'],
             'date' => ['required', 'date'],
             'amount' => ['required', 'numeric', 'decimal:0,2', 'min:0'],
-            'type' => ['required', 'in:earning,spending']
+            'type' => ['required', 'in:earning,spending'],
+            'periodicity_id' => ['required', 'exists:periodicities,id'],
+            'repeat_until' => ['nullable', 'after:date', 'after:today']
         ]);
 
         $validated['amount'] *= $validated['type'] == 'earning' ? 1 : -1;
 
-        Transaction::create(array_merge($validated, ['user_id' => auth()->user()->id]));
+        $this->transactionService->addTransaction(Carbon::createFromDate($validated['date']), $validated['description'], $validated['amount'], Periodicity::find($validated['periodicity_id']) ?? null, $validated['repeat_until'] ?? null, auth()->user());
 
         return redirect()->back()->withSuccess('The action was completed successfully.');
     }
-
 }

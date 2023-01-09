@@ -4,6 +4,7 @@ namespace Tests\Unit\Filters;
 
 use App\Filters\PaginationFilter;
 use App\Models\Transaction;
+use App\Models\UpcomingTransaction;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -24,6 +25,21 @@ class UserTest extends TestCase
 
         // Act
         $result = $user->transactions;
+
+        // Assert
+        $this->assertInstanceOf(Collection::class, $result);
+        $this->assertEquals(20, $result->count());
+    }
+
+    public function test_user_upcoming_transactions_relationship()
+    {
+        // Arrange
+        $user = User::factory()->create();
+        UpcomingTransaction::factory()->count(20)->create();
+        UpcomingTransaction::factory()->count(20)->create(['user_id' => $user->id]);
+
+        // Act
+        $result = $user->upcomingTransactions;
 
         // Assert
         $this->assertInstanceOf(Collection::class, $result);

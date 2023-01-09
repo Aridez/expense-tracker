@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Periodicity;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
@@ -45,6 +46,7 @@ class TransactionControllerTest extends TestCase
             'date' => Carbon::now()->format('Y-m-d'),
             'amount' => 100,
             'type' => 'earning',
+            'periodicity_id' => Periodicity::NONE
         ]);
 
         $response->assertStatus(302);
@@ -67,6 +69,7 @@ class TransactionControllerTest extends TestCase
             'date' => Carbon::now()->format('Y-m-d'),
             'amount' => 100,
             'type' => 'spending',
+            'periodicity_id' => Periodicity::NONE
         ]);
 
         $response->assertStatus(302);
